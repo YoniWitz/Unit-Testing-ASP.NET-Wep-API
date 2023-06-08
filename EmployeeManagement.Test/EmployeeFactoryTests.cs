@@ -28,9 +28,22 @@ namespace EmployeeManagement.Test
             var employeeService = new EmployeeService(new EmployeeManagementTestDataRepository(), new EmployeeFactory());
             var internalEmployee = (InternalEmployee)employeeFactory.CreateEmployee("Yoni", "Dockx");
 
-            //Act
+            //Act + assert
             await Assert.ThrowsAsync<EmployeeInvalidRaiseException>(async () => await employeeService.GiveRaiseAsync(internalEmployee, 50));
+        }
 
+        [Fact]
+        public void EmployeeFactoryCreatesExternalEmployeeWhenIsExternalTrue()
+        {
+            //Act
+            var employeeFactory = new EmployeeFactory();
+            
+            //Arrange
+            var employee = employeeFactory.CreateEmployee("yoni", "witz", string.Empty, true);
+            
+            //Assert
+            Assert.IsType<ExternalEmployee>(employee);
+            Assert.IsAssignableFrom<Employee>(employee);
         }
     }
 }
