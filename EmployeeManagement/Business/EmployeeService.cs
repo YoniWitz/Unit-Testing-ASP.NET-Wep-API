@@ -47,6 +47,10 @@ namespace EmployeeManagement.Business
                 * employee.AttendedCourses.Count * 100;
         }
 
+        public List<Course> GetObligatoryCourses()
+        {
+            return _repository.GetCourses(_obligatoryCourseIds);
+        }
         public async Task GiveMinimumRaiseAsync(InternalEmployee employee)
         {
             employee.Salary += 100;
@@ -136,7 +140,7 @@ namespace EmployeeManagement.Business
             // during vetting process
 
             // get those courses  
-            var obligatoryCourses = _repository.GetCourses(_obligatoryCourseIds);
+            var obligatoryCourses = GetObligatoryCourses();
 
             // add them for this employee
             foreach (var obligatoryCourse in obligatoryCourses)
