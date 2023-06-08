@@ -20,7 +20,7 @@ namespace EmployeeManagement.Test
 
             //Assert
             Assert.NotNull(internalEmployee);
-            Assert.Contains(obligatoryCourses[3], internalEmployee.AttendedCourses);
+            Assert.Contains(obligatoryCourses[0], internalEmployee.AttendedCourses);
         }
     }
 }
