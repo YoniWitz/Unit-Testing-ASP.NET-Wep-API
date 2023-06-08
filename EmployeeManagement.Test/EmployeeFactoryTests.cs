@@ -2,19 +2,27 @@
 using EmployeeManagement.Business.Exceptions;
 using EmployeeManagement.DataAccess.Entities;
 using EmployeeManagement.Services.Test;
+using EmployeeManagement.Test.Fixtures;
 
 namespace EmployeeManagement.Test
 {
+    [Collection("EmployeeFactoryCollection")]
     public class EmployeeFactoryTests
     {
+        private readonly EmployeeFactoryFixture _employeeFactoryFixture;
+
+        public EmployeeFactoryTests(EmployeeFactoryFixture employeeFactoryFixture)
+        {
+            _employeeFactoryFixture = employeeFactoryFixture;
+        }
+
         [Fact]
         public void CreateEmployee_CosntructInternalEmployy_SalaryMustBe2500()
         {
             //Arrange
-            var employeeFactory = new EmployeeFactory();
             
             //Act
-            var employee = (InternalEmployee) employeeFactory.CreateEmployee("Yoni", "Dockx");
+            var employee = (InternalEmployee)_employeeFactoryFixture._factory.CreateEmployee("Yoni", "Dockx");
 
             //Assert
             Assert.Equal(2500, employee.Salary);
@@ -24,9 +32,8 @@ namespace EmployeeManagement.Test
         public async Task GiveRaiseAsync_ThrowsExceptionWhenRaiseBelowMinimum()
         {
             //Arrange
-            var employeeFactory = new EmployeeFactory();
-            var employeeService = new EmployeeService(new EmployeeManagementTestDataRepository(), new EmployeeFactory());
-            var internalEmployee = (InternalEmployee)employeeFactory.CreateEmployee("Yoni", "Dockx");
+            EmployeeService employeeService = new (new EmployeeManagementTestDataRepository(), _employeeFactoryFixture._factory);
+            var internalEmployee = (InternalEmployee)_employeeFactoryFixture._factory.CreateEmployee("Yoni", "Dockx");
 
             //Act + assert
             await Assert.ThrowsAsync<EmployeeInvalidRaiseException>(async () => await employeeService.GiveRaiseAsync(internalEmployee, 50));
@@ -36,10 +43,9 @@ namespace EmployeeManagement.Test
         public void EmployeeFactoryCreatesExternalEmployeeWhenIsExternalTrue()
         {
             //Act
-            var employeeFactory = new EmployeeFactory();
             
             //Arrange
-            var employee = employeeFactory.CreateEmployee("yoni", "witz", string.Empty, true);
+            var employee = _employeeFactoryFixture._factory.CreateEmployee("yoni", "witz", string.Empty, true);
             
             //Assert
             Assert.IsType<ExternalEmployee>(employee);

@@ -10,9 +10,7 @@ namespace EmployeeManagement.Test
         public void InternalEmployeeCreated_MustHaveAttendedFirstObligatoryCourse()
         {
             //Arrange
-            EmployeeManagementTestDataRepository employeeManagementTestDataRepository = new();
-            EmployeeFactory employeeFactory = new EmployeeFactory();
-            EmployeeService employeeService = new EmployeeService(employeeManagementTestDataRepository, employeeFactory);
+            EmployeeService employeeService = new (new EmployeeManagementTestDataRepository(), new EmployeeFactory());
             List<Course> obligatoryCourses = employeeService.GetObligatoryCourses();
 
             //Act
