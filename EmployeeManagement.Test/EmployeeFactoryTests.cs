@@ -1,23 +1,23 @@
-﻿using EmployeeManagement.Business;
-using EmployeeManagement.Business.Exceptions;
+﻿using EmployeeManagement.Business.Exceptions;
 using EmployeeManagement.DataAccess.Entities;
-using EmployeeManagement.Services.Test;
 using EmployeeManagement.Test.Fixtures;
 
 namespace EmployeeManagement.Test
 {
-    [Collection("EmployeeFactoryCollection")]
-    public class EmployeeFactoryTests
+    [Collection("EmployeeServiceRepoCollection")]
+    public class EmployeeFactoryTests : IClassFixture<EmployeeFactoryFixture>
     {
         private readonly EmployeeFactoryFixture _employeeFactoryFixture;
+        private readonly EmployeeServiceRepoFixture _employeeServiceRepoFixture;
 
-        public EmployeeFactoryTests(EmployeeFactoryFixture employeeFactoryFixture)
+        public EmployeeFactoryTests(EmployeeFactoryFixture employeeFactoryFixture, EmployeeServiceRepoFixture employeeServiceRepoFixture)
         {
             _employeeFactoryFixture = employeeFactoryFixture;
+            _employeeServiceRepoFixture = employeeServiceRepoFixture;
         }
 
         [Fact]
-        public void CreateEmployee_CosntructInternalEmployy_SalaryMustBe2500()
+        public void CreateEmployee_CosntructInternalEmployee_SalaryMustBe2500()
         {
             //Arrange
             
@@ -32,11 +32,10 @@ namespace EmployeeManagement.Test
         public async Task GiveRaiseAsync_ThrowsExceptionWhenRaiseBelowMinimum()
         {
             //Arrange
-            EmployeeService employeeService = new (new EmployeeManagementTestDataRepository(), _employeeFactoryFixture._factory);
             var internalEmployee = (InternalEmployee)_employeeFactoryFixture._factory.CreateEmployee("Yoni", "Dockx");
 
             //Act + assert
-            await Assert.ThrowsAsync<EmployeeInvalidRaiseException>(async () => await employeeService.GiveRaiseAsync(internalEmployee, 50));
+            await Assert.ThrowsAsync<EmployeeInvalidRaiseException>(async () => await _employeeServiceRepoFixture.employeeService.GiveRaiseAsync(internalEmployee, 50));
         }
 
         [Fact]
