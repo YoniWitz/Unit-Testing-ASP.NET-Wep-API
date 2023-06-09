@@ -1,20 +1,27 @@
 ﻿using EmployeeManagement.Business;
 using EmployeeManagement.DataAccess.Entities;
 using EmployeeManagement.Services.Test;
+using EmployeeManagement.Test.Fixtures;
 
 namespace EmployeeManagement.Test
 {
-    public class EmployeeServiceTests
+    public class EmployeeServiceTests :IClassFixture<EmployeeServiceTestsDIFixture>
     {
+        private readonly EmployeeServiceTestsDIFixture _fixture;
+
+        public EmployeeServiceTests(EmployeeServiceTestsDIFixture fixture)
+        {
+            _fixture = fixture;
+        }
+
         [Fact]
         public void InternalEmployeeCreated_MustHaveAttendedFirstObligatoryCourse()
         {
             //Arrange
-            EmployeeService employeeService = new (new EmployeeManagementTestDataRepository(), new EmployeeFactory());
-            List<Course> obligatoryCourses = employeeService.GetObligatoryCourses();
+            List<Course> obligatoryCourses = _fixture.EmployeeService.GetObligatoryCourses();
 
             //Act
-            InternalEmployee internalEmployee = employeeService.CreateInternalEmployee("yoni", "witz");
+            InternalEmployee internalEmployee = _fixture.EmployeeService.CreateInternalEmployee("yoni", "witz");
 
             //Assert
             Assert.NotNull(internalEmployee);

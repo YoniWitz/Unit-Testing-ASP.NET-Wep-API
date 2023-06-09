@@ -8,7 +8,7 @@ namespace EmployeeManagement.Business
     public class EmployeeService : IEmployeeService
     {
         // Ids of obligatory courses: "Company Introduction" and "Respecting Your Colleagues" 
-        private Guid[] _obligatoryCourseIds = {
+        private readonly Guid[] _obligatoryCourseIds = {
             Guid.Parse("37e03ca7-c730-4351-834c-b66f280cdb01"),
             Guid.Parse("1fd115cf-f44c-4982-86bc-a8fe2e4ff83e") };
 
@@ -51,6 +51,7 @@ namespace EmployeeManagement.Business
         {
             return _repository.GetCourses(_obligatoryCourseIds);
         }
+
         public async Task GiveMinimumRaiseAsync(InternalEmployee employee)
         {
             employee.Salary += 100;
