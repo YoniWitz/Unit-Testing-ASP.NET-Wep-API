@@ -6,14 +6,16 @@ using EmployeeManagement.Test.Fixtures;
 
 namespace EmployeeManagement.Test
 {
-    [Collection("EmployeeFactoryCollection")]
-    public class EmployeeFactoryTests
+    [Collection("EmployeeServiceRepoCollection")]
+    public class EmployeeFactoryTests : IClassFixture<EmployeeFactoryFixture>
     {
         private readonly EmployeeFactoryFixture _employeeFactoryFixture;
+        private readonly EmployeeServiceRepoFixture _employeeServiceFixture;
 
-        public EmployeeFactoryTests(EmployeeFactoryFixture employeeFactoryFixture)
+        public EmployeeFactoryTests(EmployeeFactoryFixture employeeFactoryFixture, EmployeeServiceRepoFixture employeeServiceFixture)
         {
             _employeeFactoryFixture = employeeFactoryFixture;
+            _employeeServiceFixture = employeeServiceFixture;
         }
 
         [Fact]
