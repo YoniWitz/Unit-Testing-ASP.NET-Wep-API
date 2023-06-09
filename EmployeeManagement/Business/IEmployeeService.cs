@@ -20,5 +20,7 @@ namespace EmployeeManagement.Business
         Task GiveMinimumRaiseAsync(InternalEmployee employee);
         Task GiveRaiseAsync(InternalEmployee employee, int raise);
         void NotifyOfAbsence(Employee employee);
+
+        List<Course> GetObligatoryCourses();
     }
 }
