@@ -35,7 +35,7 @@ namespace EmployeeManagement.Test
             var internalEmployee = (InternalEmployee)_employeeFactoryFixture._factory.CreateEmployee("Yoni", "Dockx");
 
             //Act + assert
-            await Assert.ThrowsAsync<EmployeeInvalidRaiseException>(async () => await _employeeServiceRepoFixture.employeeService.GiveRaiseAsync(internalEmployee, 50));
+            await Assert.ThrowsAsync<EmployeeInvalidRaiseException>(async () => await _employeeServiceRepoFixture.EmployeeService.GiveRaiseAsync(internalEmployee, 50));
         }
 
         [Fact]

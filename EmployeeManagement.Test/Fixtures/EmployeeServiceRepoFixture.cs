@@ -8,8 +8,8 @@ namespace EmployeeManagement.Test.Fixtures
 {
     public class EmployeeServiceRepoFixture : IDisposable
     {
-        public readonly EmployeeService employeeService;
-        public readonly EmployeeManagementRepository employeeManagementRepository;
+        public readonly EmployeeService EmployeeService;
+        public readonly EmployeeManagementRepository EmployeeManagementRepository;
         public EmployeeServiceRepoFixture()
         {
             var connection = new SqliteConnection("Data source=:memory:");
@@ -17,8 +17,8 @@ namespace EmployeeManagement.Test.Fixtures
             var optionsBuilder = new DbContextOptionsBuilder<EmployeeDbContext>().UseSqlite(connection);
             var dbContext = new EmployeeDbContext(optionsBuilder.Options);
             dbContext.Database.Migrate();
-            employeeManagementRepository = new(dbContext);
-            employeeService = new(employeeManagementRepository, new EmployeeFactory());
+            EmployeeManagementRepository = new(dbContext);
+            EmployeeService = new(EmployeeManagementRepository, new EmployeeFactory());
         }
         public void Dispose() { }
     }
